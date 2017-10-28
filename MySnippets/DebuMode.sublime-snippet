@@ -1,0 +1,30 @@
+<snippet>
+	<content><![CDATA[
+#define DEBUG_MODE
+#ifdef DEBUG_MODE
+#define dump(x) cout << #x << " : " << x << endl
+#define LINE cout << "line : " << __LINE__ << endl
+#define dumpV(v) cout << #v << " : ["; for(auto& t : v) cout << t << ", "; cout<<"]" << endl
+#define STOP assert(false)
+#else
+#define dump(x) ;
+#define LINE 	;
+#define dumpV(v);
+#define STOP 	;
+#endif
+#define mp make_pair
+
+namespace std{
+  template<class S,class T>
+  ostream &operator <<(ostream& out,const pair<S,T>& a){
+    out<<'('<<a.fi<<", "<<a.se<<')';
+    return out;
+  }
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>DebugMode</tabTrigger> 
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

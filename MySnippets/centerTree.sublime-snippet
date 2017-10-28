@@ -1,0 +1,40 @@
+<snippet>
+	<content><![CDATA[
+//重心分解
+const int MAX_NODE = 1e5 + 10;
+struct Edge
+{
+	int to;
+	ll cost;
+};
+
+vector<Edge> es[MAX_NODE];
+vl subTreeSize(MAX_NODE);
+
+ll dfsSubTreeSize(int cur, int par) {
+	ll ret = 1LL;
+	for(auto& e : es[cur]) {
+		int to = e.to;
+		if(to == par) continue;
+		ret += dfsSubTreeSize(to, cur);
+	}
+	return subTreeSize[cur] = ret;
+}
+//secondが重心　第３引数は頂点数　あらかじめdfsSubTreeの必要あり
+pll dfsCenter(int cur, int par, int n){
+	pll ret = {1LL<<60, -1LL};
+	ll m = 0LL;
+	for(auto& e : es[cur]) {
+		int to = e.to;
+		if(to == par) continue;
+		ret = min(ret, dfsCenter(to, cur, n));
+		m = max(m, subTreeSize[to]);
+	}
+	return min(ret, {max(m, n-subTreeSize[cur]), cur});
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>centerTree_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

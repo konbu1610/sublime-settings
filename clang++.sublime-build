@@ -1,0 +1,13 @@
+{
+    "selector": "source.c++",
+    "file_regex": "^(.*?):([0-9]*):?([0-9]*):? (.*)",
+    "cmd": ["/usr/bin/clang++", "-std=c++14", "-O2", "$file_name"],
+
+    "variants":
+    [
+        {
+            "name": "Build & Run",
+            "cmd":  ["bash", "-c", "/usr/bin/clang++ -std=c++14 -O2 '${file}' -o '${file_path}/${file_base_name}' && '${file_path}/${file_base_name}'"]
+        }
+    ]
+}

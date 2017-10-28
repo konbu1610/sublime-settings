@@ -1,0 +1,11 @@
+<snippet>
+	<content><![CDATA[
+const int MAX_N = ${1:1e5}+10;
+struct Edge{ int to, cost; };
+vector<Edge> es[MAX_N];
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Edge_es_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,24 @@
+<snippet>
+	<content><![CDATA[
+const int MAX_N = 1e5 +10;
+vector<int> es[MAX_N];
+bool f = true;
+
+//木の完全マッチング f&=check(0, -1) => fがanswer	
+bool check(int cur, int par) {
+	int cnt = 0;
+	if(par != -1 && es[cur].size() == 1) return false;
+	for(auto& to : es[cur]) {
+		if(to == par) continue;
+		if(!check(to, cur)) cnt++;
+	}
+	if(cnt > 1) f = false;
+	return cnt;
+} 
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>tree_matching</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+	<description>木の完全マッチング</description>	
+</snippet>

@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+struct Edge{ int to, cost; };
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Edge_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

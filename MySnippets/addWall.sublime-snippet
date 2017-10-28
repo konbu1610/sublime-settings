@@ -1,0 +1,15 @@
+<snippet>
+	<content><![CDATA[
+void addWall(vector<string>& s, int& H, int& W, char wall = '#') {
+	s.insert(s.begin(), string(W, wall));
+	s.push_back(string(W, wall));
+	for(auto& t : s) t = wall + t + wall;
+	H = s.size();
+	W = s[0].size();
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>addWall_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

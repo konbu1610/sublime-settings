@@ -1,0 +1,13 @@
+<snippet>
+	<content><![CDATA[
+ll StoLL(const string& s) {
+	ll ret = 0LL;
+	for(auto& c : s) ret = ret*10 + (c-'0');
+	return ret;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>StoLL_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

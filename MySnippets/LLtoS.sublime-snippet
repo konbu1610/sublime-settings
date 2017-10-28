@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+string LLtoS(ll a) {
+	string s;
+	while(1) {
+		s += ('0'+a%10);
+		a /= 10;
+		if(a == 0) break;
+	}
+	reverse(all(s));
+	return s;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>LLtoS</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,0 +1,21 @@
+{
+    "selector": "source.c++",
+    "file_regex": "^(.*?):([0-9]*):?([0-9]*):? (.*)",
+    "cmd": ["/usr/local/bin/g++", "-std=c++14", "-O2", "$file_name"],
+
+    "variants":
+    [
+        {
+            "name": "Build -o filename",
+            "cmd": ["/usr/local/bin/g++", "-std=c++14", "-O2", "$file_name", "-o", "${file_base_name}"],
+        },
+        {
+            "name": "Build & Run",
+            "cmd":  ["bash", "-c", "/usr/local/bin/g++ -std=c++14 -O2 '${file}' -o '${file_path}/${file_base_name}' && '${file_path}/${file_base_name}'"]
+        },
+        {
+            "name": "Build & Run < name.in",
+            "cmd":  ["bash", "-c", "/usr/local/bin/g++ -std=c++14 -O2 '${file}' -o './${file_base_name}' && './${file_base_name}'<'./${file_base_name}.in'"]
+        }
+    ]
+}

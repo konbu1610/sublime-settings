@@ -1,0 +1,12 @@
+<snippet>
+	<discription>range for</discription>
+	<content><![CDATA[
+for(auto& ${1:tmp} : ${2:v}) {
+	${3}
+}${4}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>for__</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

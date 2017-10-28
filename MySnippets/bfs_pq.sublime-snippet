@@ -1,0 +1,14 @@
+<snippet>
+	<content><![CDATA[
+while (!${1:q}.empty()) {
+	auto ${2:p} = ${1:q}.top(); ${1:q}.pop();
+	${3}
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>bfs_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+	<discription>p_queue</discription>
+
+</snippet>

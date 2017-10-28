@@ -1,0 +1,30 @@
+<snippet>
+	<content><![CDATA[
+//[l, r) wo merge
+set<${1:pii}> mergeSegment(const set<${1}>& st) {
+	set<${1}> ret;
+	if(st.size() == 0) return ret;
+	auto p = *st.begin();
+	auto it = st.begin();
+	it++;
+	while(it != st.end()) {
+		auto tmp = *it;
+		if(p.se >= tmp.fi) {
+			p.fi = min(p.fi, tmp.fi);
+			p.se = max(p.se, tmp.se);
+		}
+		else{
+			ret.insert(p);
+			p = tmp;
+		}
+		it++;
+	}
+	ret.insert(p);
+	return ret;
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>mergeSegments_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

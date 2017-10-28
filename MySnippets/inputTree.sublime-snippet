@@ -1,0 +1,16 @@
+<snippet>
+	<content><![CDATA[
+rep(i, ${1:n-1}) {
+	int a, b;
+	cin >> a >> b;
+	a--; b--;
+	es[a].pb(b);
+	es[b].pb(a);
+}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>inputTree_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope> 
+	<description> nonCost </description>
+</snippet>
