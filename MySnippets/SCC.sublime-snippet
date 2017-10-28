@@ -1,7 +1,7 @@
 <snippet>
 	<content><![CDATA[
 struct SCC{//O(V+E)
-    static const int MAX_V = 1010;
+    static const int MAX_V = 2e5+10;
     int V;
     vector<int> G[MAX_V], rG[MAX_V];
     vector<int> vs;

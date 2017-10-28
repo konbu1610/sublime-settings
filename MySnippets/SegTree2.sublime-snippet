@@ -1,0 +1,59 @@
+<snippet>
+    <content><![CDATA[
+// 区間加算　最小値取得
+template <typename T>
+struct SegTree {
+    vector<T> segVal;
+    vector<T> segAdd;
+    int n;
+    const T Default;
+    const T MAX;
+    SegTree(int n_, const T& def, const T& MAX) : Default(def), MAX(MAX) {init(n_);}
+    void init(int n_) {
+        n = 1;
+        while (n < n_) n *= 2;
+        segVal = vector<T>(2 * n - 1, Default);
+        segAdd = vector<T>(2 * n - 1);
+    }
+    T f(const T& a, const T& b) {
+        return min(a, b);
+    }
+    void add(int a, int b, const T& x) {
+        add(a, b, x, 0, 0, n);
+    }
+    void add(int a, int b, const T& x, int k, int l, int r) {
+        if (r <= a || b <= l) return; //もし交差しない区間であれば終える.
+
+        if (a <= l && r <= b) { //もし今みている区間[l, r)が[a, b)に完全に内包されていれば
+            segAdd[k] += x;  //区間[l, r)にkを加算する.
+            return;
+        }
+
+        add(a, b, x, k * 2 + 1, l, (l + r) / 2); //子の区間に(必要があれば)xを加算する.
+        add(a, b, x, k * 2 + 2, (l + r) / 2, r); //〃
+
+        //親の区間の最小値は, 子の区間の最小値 + 自分に一様に加算されている値 である.一様に加算される値は更新しなくて良い.
+        segVal[k] = min(segVal[k * 2 + 1] + segAdd[k * 2 + 1], segVal[k * 2 + 2] + segAdd[k * 2 + 2]);
+    }
+    T query(int a, int b, int k, int l, int r ) {
+        if (r <= a || b <= l) return (MAX);
+
+        if (a <= l && r <= b) return (segVal[k] + segAdd[k]); //完全に内包されていれば,その区間の最小値を返す.
+
+        T left = query(a, b, k * 2 + 1, l, (l + r) / 2); //子の区間の最小値を求める.
+        T right = query(a, b, k * 2 + 2, (l + r) / 2, r); //子の区間の最小値を求める
+
+        return (f(left, right) + segAdd[k]); //親の区間の最小値は, 子の区間の最小値 + 自分に一様に加算されている値 である (大切なので2回書きました!!)
+
+    }
+    T query(int a, int b) {
+        return query(a, b, 0, 0, n);
+    }
+};
+]]></content>
+    <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+    <tabTrigger>SegTree_</tabTrigger>
+    <!-- Optional: Set a scope to limit where the snippet will trigger -->
+    <scope>source.c++</scope>
+    <description>区間加算、最小値取得</description>    
+</snippet>

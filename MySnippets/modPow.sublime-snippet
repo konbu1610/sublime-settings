@@ -1,9 +1,17 @@
 <snippet>
 	<content><![CDATA[
-continue
+ll modPow(ll x, ll n) {
+	ll ret = 1;
+	while(n) {
+		if(n&1LL) (ret *= x) %= MOD;
+		(x *= x) %= MOD;
+		n >>= 1;
+	}
+	return ret;
+}
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>continue</tabTrigger>
+	<tabTrigger>modPow_</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<scope>source.c++</scope>
 </snippet>

@@ -1,0 +1,29 @@
+<snippet>
+	<content><![CDATA[
+auto dijkstra = [&] () {
+	typedef pair<int, int> P; //dist, from
+	priority_queue<P, vector<P>, greater<P> > q;
+	d[root] = 0LL;
+	q.push({0LL, root});
+	while (!q.empty()) {
+		auto p = q.top(); q.pop();
+		int prv = p.se;
+		ll cost = p.fi;
+		if (d[prv] < p.fi) continue;
+		for (auto& e : es[prv]) {
+			int to = e.to;
+			ll dist = e.cost + cost;
+			if (dist < d[to]) {
+				d[to] = dist;
+				q.push({dist, to});
+			}
+		}
+	}
+};
+dijkstra();
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>dijkstra_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

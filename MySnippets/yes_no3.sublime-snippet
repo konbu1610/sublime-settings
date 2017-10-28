@@ -1,9 +1,10 @@
 <snippet>
 	<content><![CDATA[
-continue
+string yes = "Possible", no = "Impossible";
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>continue</tabTrigger>
+	<tabTrigger>yes, no</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
-	<scope>source.c++</scope>
+	<scope>source.c++</scope> 
+	<description>Possible Impossible</description>
 </snippet>

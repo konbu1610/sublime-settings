@@ -1,0 +1,39 @@
+<snippet>
+	<content><![CDATA[
+template<typename T>
+struct Mat
+{
+	vector<vector<T>> dat;
+	Mat(int h, int w) : dat(h, vector<T>(w)){};
+	Mat operator * (const Mat& m) const {
+		assert(dat[0].size() == m.dat.size());
+		Mat ret(dat.size(), m.dat[0].size());
+		rep(i, dat.size()) rep(j, dat[0].size()) rep(k, m.dat[0].size()) {
+			// ret[i][k] += dat[i][j] * m.dat[j][k];
+			// xor : 足し算っぽい
+			// and : 掛け算っぽい
+			ret.dat[i][k] ^= dat[i][j] & m.dat[j][k];
+		}
+		return ret;
+	}
+	Mat operator ^(ll n) const {
+		assert(dat.size() == dat[0].size());
+		auto x = *this;
+		Mat ret(dat.size(), dat[0].size());
+		rep(i, dat.size()) {
+			ret.dat[i][i] = (1LL<<60)-1;
+		}
+		while(n) {
+			if(n&1LL) ret = ret * x;
+			x = x * x;
+			n >>= 1;
+		}
+		return ret;
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>Matrix_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

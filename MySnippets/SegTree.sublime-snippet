@@ -1,0 +1,41 @@
+<snippet>
+	<content><![CDATA[
+template <typename T>
+struct SegTree{
+    vector<T> dat;
+    int n;
+    const T Default;
+    SegTree(int n_, const T& def) : Default(def){init(n_);}
+    void init(int n_){
+        n = 1;
+        while(n < n_) n *= 2;
+        dat = vector<T>(2*n-1, Default);
+    }
+    T f(const T& a, const T& b) {
+    	return max(a, b);
+    }
+    void update(int k, const T& a){
+        k += n-1;
+        dat[k] = a;
+        while(k > 0){
+            k = (k - 1) / 2;
+            dat[k] = f(dat[k * 2 + 1], dat[k * 2 + 2]);
+        }
+    }
+    T query(int a, int b, int k, int l, int r ){
+        if(r <= a || b <= l) return Default;
+        if(a <= l && r <= b) return dat[k];
+        T vl = query(a, b, k * 2 + 1, l, (l + r) / 2);
+        T vr = query(a, b, k * 2 + 2, (l + r) / 2, r);
+        return f(vl, vr);
+    }
+    T query(int a, int b) {
+    	return query(a, b, 0, 0, n);
+    }
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>SegmentTree_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

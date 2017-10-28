@@ -1,0 +1,191 @@
+<snippet>
+	<content><![CDATA[
+// BigInteger (激遅 AOJ 0591 : 1e4回の掛け算割り算で8sec)
+struct BigInteger {
+	static const ll LogBase = 8;
+	static const ll BASE = pow(10, LogBase);
+	vector<ll> dig;
+	bool isNeg;
+	BigInteger() {}
+	BigInteger(ll a, int sz, bool negative = false) : dig(sz, a), isNeg(negative) {}
+	BigInteger(string s) {
+		if (s[0] == '-') {
+			isNeg = true;
+			s = s.substr(1);
+		} else isNeg = false;
+		reverse(all(s));
+		for (int i = 0; i < s.size(); i += LogBase) {
+			dig.pb(0);
+			ll p = 1;
+			for (int j = 0; j < LogBase; j++) {
+				if (i + j >= s.size()) break;
+				dig.back() = dig.back() + (s[i + j] - '0') * p;
+				p *= 10LL;
+			}
+		}
+		while (size() > 1 && dig.back() == 0) dig.pop_back();
+	}
+	BigInteger(ll a) {
+		isNeg = a < 0;
+		dig.pb(abs(a));
+		if(dig.back() >= BASE) {
+			ll tmp = dig.back() / BASE;
+			dig.back() %= BASE;
+			dig.pb(tmp);
+		}
+		while (size() > 1 && dig.back() == 0) dig.pop_back();
+	}
+	int size() const {return dig.size();}
+	BigInteger getAbs()const {
+		if (!isNeg) return *this;
+		BigInteger ret = *this;
+		ret.isNeg = false;
+		return ret.normal();
+	}
+	BigInteger normal() const {
+		BigInteger ret = *this;
+		ret.normalize();
+		return ret;
+	}
+	void normalize() {
+		for(int i = 0; i +1 < size(); ++i) {
+			if (dig[i] >= BASE) {
+				dig[i+1] += dig[i] / BASE;
+				dig[i] %= BASE;
+			}
+		}
+		if(dig.back() >= BASE) {
+			ll tmp = dig.back() / BASE;
+			dig.back() %= BASE;
+			dig.push_back(tmp);
+		}
+		while (size() > 1 && dig.back() == 0) dig.pop_back();
+	}
+	pair<BigInteger, ll> divMod(ll a) const {
+		BigInteger x = *this;
+		ll c = 0, t;
+		for (int i = x.size() - 1; i >= 0; --i) {
+			t = BASE * c + x.dig[i];
+			x.dig[i] = t / a;
+			c = t % a;
+		}
+		return pair<BigInteger, ll>(x.normal(), c);
+	}
+	pair<BigInteger, BigInteger> divMod(const BigInteger& bi) const {
+		BigInteger x = this->getAbs(), y = bi.getAbs();
+		if (x < y) return pair<BigInteger, BigInteger>(make_pair(BigInteger("0"), *this));
+		if (x == y) return pair<BigInteger, BigInteger> (BigInteger("1"), BigInteger("0"));
+		ll F = BASE / (y.dig.back() + 1);
+		x = x * F;
+		y = y * F;
+
+		BigInteger z(0LL, x.size() - y.size() + 1, isNeg ^ bi.isNeg);
+		for (int k = z.size() - 1, i = x.size() - 1; k >= 0; --k, --i) {
+			z.dig[k] = (i + 1 < x.size() ? x.dig[i + 1] : 0) * BASE + x.dig[i];
+			z.dig[k] /= y.dig.back();
+			BigInteger t(0, k + y.size());
+			for (int m = 0; m < y.size(); ++m) {
+				t.dig[k + m] = z.dig[k] * y.dig[m];
+			}
+
+			t.normalize();
+			while (x < t) {
+				z.dig[k] -= 1;
+				for (int m = 0; m < y.size(); ++m) {
+					t.dig[k + m] -= y.dig[m];
+				}
+				t.normalize();
+			}
+			x = x - t;
+		}
+		return pair<BigInteger, BigInteger>(z.normal(), x / F);
+	}
+	BigInteger operator + (const BigInteger& bi) const {
+		bool retNeg = false;
+		if (isNeg) {
+			if (bi.isNeg) retNeg = true;
+			else return bi - (this->getAbs());
+		}
+		else if (bi.isNeg) return (*this) - bi.getAbs();
+		BigInteger ret (0LL, max(this->size(), bi.size()) + 1, retNeg);
+		for (int i = 0; i + 1 < ret.size(); ++i) {
+			if (i < this->size()) ret.dig[i] += this->dig[i];
+			if (i < bi.size()) ret.dig[i] += bi.dig[i];
+			if (ret.dig[i] >= BASE) ret.dig[i] -= BASE, ++ret.dig[i + 1];
+		}
+		return ret.normal();
+	}
+	BigInteger operator - (const BigInteger& bi) const {
+		if (bi.isNeg) return (*this) + bi.getAbs();
+		if (isNeg) return bi - (this -> getAbs());
+		if ((*this) < bi) {
+			BigInteger ret = bi - (*this);
+			ret.isNeg = true;
+			return ret;
+		}
+		BigInteger ret = *this;
+		for (int i = 0; i < bi.size(); ++i) {
+			ret.dig[i] -= bi.dig[i];
+			if (ret.dig[i] < 0) ret.dig[i] += BASE, --ret.dig[i+1];
+		}
+		return ret.normal();
+	}
+	BigInteger operator * (const ll a) const {
+		BigInteger ret = *this;
+		for (auto& d : ret.dig) d *= a;
+		return ret.normal();
+	}
+	BigInteger operator * (const BigInteger& bi)  const {
+		BigInteger ret(0LL, this->size() + bi.size(), isNeg ^ bi.isNeg);
+		for (int i = this->size()-1; i >= 0; --i) {
+			for (int j = 0; j < bi.size(); ++j) {
+				ret.dig[i + j] += this->dig[i] * bi.dig[j];
+			}
+			ret.normalize();
+		}
+		return ret.normal();
+	}
+	BigInteger operator / (ll a) const {return this->divMod(a).first;}
+	ll operator % (ll a) const {return this->divMod(a).second;}
+	BigInteger operator / (const BigInteger& bi) const {return this->divMod(bi).first;}
+	BigInteger operator % (const BigInteger& bi) const {return this->divMod(bi).second;}
+	bool operator < (const BigInteger& bi) const {
+		if (this->size() != bi.size()) return this->size() < bi.size();
+		for (int i = this->size() - 1; i >= 0; --i) {
+			if (dig[i] != bi.dig[i]) return dig[i] < bi.dig[i];
+		}
+		return false;
+	}
+	bool operator > (const BigInteger& bi) const {return bi < (*this);}
+	bool operator <= (const BigInteger& bi) const {!(*this > bi);}
+	bool operator >= (const BigInteger& bi) const {!(*this < bi);}
+	bool operator != (const BigInteger& bi) const {(*this < bi) || (*this > bi);}
+	bool operator == (const BigInteger& bi) const {!(*this != bi);}
+	void print() const{
+		if(isNeg) printf("-");
+		printf("%lld", dig.back());
+		for(int i = size()-2; i>=0; --i) printf("%0*lld", LogBase, dig[i]);
+	}
+	void println() const {
+		print();
+		puts("");
+	}
+};
+ostream &operator << (ostream &os, const BigInteger& x) {
+	if (x.isNeg) os << '-';
+	os << x.dig[x.size() - 1];
+	for (int i = x.size() - 2; i >= 0; --i) {
+		os << setw(BigInteger::LogBase) << setfill('0') << x.dig[i];
+	}
+	return os;
+}
+istream &operator >> (istream &is, BigInteger &x) {
+	string s; is >> s; x = BigInteger(s); return is;
+}
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>BigInteger_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

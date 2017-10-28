@@ -1,0 +1,37 @@
+<snippet>
+	<content><![CDATA[
+template<typename T>
+struct BIT{
+	vector<T> s;
+	int n;
+	BIT(int n_) : n(n_+1), s(n_+1) {};
+	T sum(int i) {
+		++i;
+		T ret = 0;
+		while(i > 0) {
+			ret += s[i];
+			i -= i & -i;
+		}
+		return ret;
+	}
+	// [l, r)
+	T query(int l, int r) {
+		return sum(r-1) - sum(l-1);
+	}
+	void add(int i, T x) {
+		++i;
+		while(i <= n) {
+			s[i] += x;
+			i += i & -i;
+		}
+	}
+	void update(int i, T x) {
+		add(i, x-query(i, i+1));
+	}
+};
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>BIT_</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<scope>source.c++</scope>
+</snippet>

@@ -1,9 +1,10 @@
 <snippet>
 	<content><![CDATA[
-continue
+string
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
-	<tabTrigger>continue</tabTrigger>
+	<tabTrigger>string_</tabTrigger>
 	<!-- Optional: Set a scope to limit where the snippet will trigger -->
 	<scope>source.c++</scope>
+	<description>型名</description>
 </snippet>
