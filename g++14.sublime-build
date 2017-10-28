@@ -16,6 +16,18 @@
         {
             "name": "Build & Run < name.in",
             "cmd":  ["bash", "-c", "/usr/local/bin/g++ -std=c++14 -O2 '${file}' -o './${file_base_name}' && './${file_base_name}'<'./${file_base_name}.in'"]
-        }
+        },
+        {
+            "name": "Build for tc MM",
+            "cmd": ["/usr/local/bin/g++", "-std=c++14", "-O2", "$file_name", "-o", "../exe/${file_base_name}"],
+        },
+        {
+            "name": "Test Atoder",
+            "cmd":  ["bash", "-c", "/usr/local/bin/g++ -std=c++14 -O2 '${file}' && /usr/local/bin/python3 /Users/toyosehiroto/Documents/codes/Atcoder/LocalTest/localtest.py && pbcopy < '${file}'"]
+        },
+        {
+            "name": "Test Atoder (Japanese)",
+            "cmd":  ["bash", "-c", "/usr/local/bin/g++ -std=c++14 -O2 '${file}' && /usr/local/bin/python3 /Users/toyosehiroto/Documents/codes/Atcoder/LocalTest/localtestJpn.py && pbcopy < '${file}'"]
+        },
     ]
 }
