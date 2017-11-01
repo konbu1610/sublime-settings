@@ -23,11 +23,11 @@
         },
         {
             "name": "Test Atoder",
-            "cmd":  ["bash", "-c", "/usr/local/bin/g++ -std=c++14 -O2 '${file}' && /usr/local/bin/python3 /Users/toyosehiroto/Documents/codes/Atcoder/LocalTest/localtest.py && pbcopy < '${file}'"]
+            "cmd":  ["bash", "-c", "/usr/local/bin/g++ -std=c++14 -O2 '${file}' && /usr/local/bin/python3 /Users/***/Documents/codes/Atcoder/LocalTest/localtest.py && pbcopy < '${file}'"]
         },
         {
             "name": "Test Atoder (Japanese)",
-            "cmd":  ["bash", "-c", "/usr/local/bin/g++ -std=c++14 -O2 '${file}' && /usr/local/bin/python3 /Users/toyosehiroto/Documents/codes/Atcoder/LocalTest/localtestJpn.py && pbcopy < '${file}'"]
+            "cmd":  ["bash", "-c", "/usr/local/bin/g++ -std=c++14 -O2 '${file}' && /usr/local/bin/python3 /Users/***/Documents/codes/Atcoder/LocalTest/localtestJpn.py && pbcopy < '${file}'"]
         },
     ]
 }
